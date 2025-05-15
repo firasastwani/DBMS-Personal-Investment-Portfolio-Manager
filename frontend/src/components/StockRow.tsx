@@ -23,7 +23,7 @@ const StockRow: React.FC<StockRowProps> = ({ stock }) => {
             <td className="px-6 py-4 whitespace-nowrap">
                 <div className="font-medium">{stock.staticPrice.toFixed(2)}</div>
             </td>
-            <td className="px-6 py-4 whitespace-nowrapo text-right">
+            <td className="px-6 py-4 whitespace-nowrap text-right">
                 <button
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
                     data-action="add-to-watchlist"
