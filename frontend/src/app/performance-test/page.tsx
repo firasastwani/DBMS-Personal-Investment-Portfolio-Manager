@@ -66,7 +66,7 @@ const PerformanceTest: React.FC = () => {
                 <div className="border p-4 rounded-lg shadow">
                     <h2 className="text-xl font-bold mb-4">Event Delegation</h2>
                     <Profiler id="StockListTable" onRender={onRenderCallback as ProfilerOnRenderCallback}>
-                        <StockList stocks={stocks} handleAction={handleAction} />
+                        <StockList stocks={stocks} handleAction={() => {}} />
                     </Profiler>
                 </div>
             </div>

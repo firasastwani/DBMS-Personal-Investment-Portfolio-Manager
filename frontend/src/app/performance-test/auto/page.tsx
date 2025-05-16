@@ -44,6 +44,12 @@ const PerformanceTest: React.FC = () => {
         }
     };
 
+    const handleAction = (symbol: string) => {
+        console.time(`Button interaction for ${symbol}`);
+        console.log(`Action for ${symbol}`);
+        console.timeEnd(`Button interaction for ${symbol}`);
+    };
+
     const loadStocks = () => {
         const stocks = Array.from({ length: 10000 }, (_, i) => ({
             id: i,
@@ -102,7 +108,7 @@ const PerformanceTest: React.FC = () => {
                 <div>
                     <h2 className="text-xl font-bold mb-4">Individual Handlers</h2>
                     <Profiler id="StockListIndividual" onRender={onRenderCallback as ProfilerOnRenderCallback}>
-                        <StockListIndividual stocks={stocks} handleAction={() => {}} />
+                        <StockListIndividual stocks={stocks} handleAction={handleAction} />
                     </Profiler>
                 </div>
                 <div>
