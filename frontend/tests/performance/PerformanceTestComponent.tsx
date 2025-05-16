@@ -19,15 +19,14 @@ const PerformanceTest: React.FC = () => {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const onRenderCallback: ProfilerOnRenderCallback = (
+  const onRenderCallback = (
     id: string,
     phase: 'mount' | 'update',
     actualDuration: number,
     baseDuration: number,
     startTime: number,
     commitTime: number,
-    interactions: Set<SchedulerInteraction>,
-    ...args: any[]
+    interactions: Set<SchedulerInteraction>
   ) => {
     console.log(`${id} ${phase} took ${actualDuration}ms`);
     interactions.forEach(interaction => {
@@ -36,26 +35,15 @@ const PerformanceTest: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch("http://localhost:8080/api/securities", {
-            method: "GET",
-            credentials: "include",
-            })
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
+    const stocks = Array.from({ length: 10000 }, (_, i) => ({
+      id: i,
+      symbol: `STK${i}`,
+      name: `Company ${i}`,
+      staticPrice: Math.random() * 10000
+    }));
 
-            setStocks(data);
-        } catch (error) {
-            console.error("Error fetching stocks:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    fetchData();
+    setStocks(stocks);
+    setLoading(false);
   }, []);
   
   const handleAction = (symbol: string) => {
@@ -70,14 +58,14 @@ const PerformanceTest: React.FC = () => {
     <div>
       <div className="mb-8">
         <h2 className="text-xl font-bold mb-2">Individual Handlers</h2>
-        <Profiler id="StockListIndividual" onRender={onRenderCallback}>
+        <Profiler id="StockListIndividual" onRender={onRenderCallback as ProfilerOnRenderCallback}>
           <StockListIndividual stocks={stocks} handleAction={handleAction} />
         </Profiler>
       </div>
       
       <div>
         <h2 className="text-xl font-bold mb-2">Event Delegation</h2>
-        <Profiler id="StockList" onRender={onRenderCallback}>
+        <Profiler id="StockList" onRender={onRenderCallback as ProfilerOnRenderCallback}>
           <StockList stocks={stocks} handleAction={handleAction} />
         </Profiler>
       </div>
